@@ -12,6 +12,7 @@ import { createRootRoute } from '@tanstack/react-router'
 
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductsProductTablePageRouteImport } from './routes/products/productTablePage'
 import { Route as ProductsIdRouteImport } from './routes/products/$id'
 
 const rootRouteImport = createRootRoute()
@@ -26,6 +27,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsProductTablePageRoute =
+  ProductsProductTablePageRouteImport.update({
+    id: '/products/productTablePage',
+    path: '/products/productTablePage',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ProductsIdRoute = ProductsIdRouteImport.update({
   id: '/products/$id',
   path: '/products/$id',
@@ -36,30 +43,39 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/products/$id': typeof ProductsIdRoute
+  '/products/productTablePage': typeof ProductsProductTablePageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/products/$id': typeof ProductsIdRoute
+  '/products/productTablePage': typeof ProductsProductTablePageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/products/$id': typeof ProductsIdRoute
+  '/products/productTablePage': typeof ProductsProductTablePageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/products/$id'
+  fullPaths: '/' | '/about' | '/products/$id' | '/products/productTablePage'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/products/$id'
-  id: '__root__' | '/' | '/about' | '/products/$id'
+  to: '/' | '/about' | '/products/$id' | '/products/productTablePage'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/products/$id'
+    | '/products/productTablePage'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ProductsIdRoute: typeof ProductsIdRoute
+  ProductsProductTablePageRoute: typeof ProductsProductTablePageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/productTablePage': {
+      id: '/products/productTablePage'
+      path: '/products/productTablePage'
+      fullPath: '/products/productTablePage'
+      preLoaderRoute: typeof ProductsProductTablePageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/$id': {
       id: '/products/$id'
       path: '/products/$id'
@@ -92,6 +115,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ProductsIdRoute: ProductsIdRoute,
+  ProductsProductTablePageRoute: ProductsProductTablePageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
